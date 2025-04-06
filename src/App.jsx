@@ -1,63 +1,36 @@
-const Header = (props) => {
-    return (
-        <h1>{props.course}</h1>
-    )
-}
+import { useState } from 'react'
 
-const Part = ({part}) => {
-
+const Button = ({ onClick, text }) => {
     return (
         <div>
-            <p> {part.name} {part.exercises}</p>
-        </div>
-    )
-}
-
-const Content = (props) => {
-    console.log(props)
-    return (
-        <div>
-            {props.parts.map(part => (
-                < Part part={part} key={part.name} />
-            ))}
-
-        </div>
-
-    )
-}
-
-const Total = (props) => {
-    const sum = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises
-    return (
-        <div>
-            <p>Number of exercises {sum}</p>
+            <button onClick={onClick}>{text}</button>
         </div>
     )
 }
 
 const App = () => {
-    const course = {
-        name: 'Half Stack application development',
-        parts: [
-            {
-                name: 'Fundamentals of React',
-                exercises: 10
-            },
-            {
-                name: 'Using props to pass data',
-                exercises: 7
-            },
-            {
-                name: 'State of a component',
-                exercises: 14
-            }
-        ]
+    const anecdotes = [
+        'If it hurts, do it more often.',
+        'Adding manpower to a late software project makes it later!',
+        'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+        'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+        'Premature optimization is the root of all evil.',
+        'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+        'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+        'The only way to go fast, is to go well.'
+    ]
+
+    const [selected, setSelected] = useState(0)
+
+    const handleSelected = () => {
+        const randomInteget = Math.floor(Math.random() * 8)
+        setSelected(randomInteget)
     }
+
     return (
         <div>
-            < Header course={course.name} />
-            < Content parts={course.parts} />
-            < Total parts={course.parts} />
+            {anecdotes[selected]}
+            <Button onClick={handleSelected} text={'next anecdote'} />
         </div>
     )
 }
