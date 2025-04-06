@@ -7,27 +7,36 @@ const Button = ( { onClick, text } ) => {
     )
 }
 
+const StatisticsLine = ({ text, value }) => {
+    return (
+        <tbody>
+            <tr>
+                <td>{text}</td>
+                <td>{value}</td>
+            </tr>
+        </tbody>
+    )
+}
+
 const Statistics = ({ good, neutral, bad, total, average, positive}) => {
 
     if (total === 0) {
         return (
             <div>
-                <h1>statistics</h1>
                 <p>No feedback given</p>
             </div>
         )
     }
 
     return (
-        <div>
-            <h1>statistics</h1>
-            <p>good {good}</p>
-            <p>neutral {neutral}</p>
-            <p>bad {bad}</p>
-            <p>all {total}</p>
-            <p>average {average}</p>
-            <p>positive {positive} %</p>
-        </div>
+        <table>
+            <StatisticsLine text={'good'} value={good} />
+            <StatisticsLine text={'neutral'} value={neutral} />
+            <StatisticsLine text={'bad'} value={bad} />
+            <StatisticsLine text={'total'} value={total} />
+            <StatisticsLine text={'average'} value={average} />
+            <StatisticsLine text={'positive'} value={positive} />
+        </table>
     )
 }
 
@@ -72,6 +81,7 @@ const App = () => {
             <Button onClick={handlingGood} text={'good'} />
             <Button onClick={handlingNeutral} text={'neutral'} />
             <Button onClick={handlingBad} text={'bad'} />
+            <h1>statistics</h1>
             <Statistics good={good} bad={bad} average={average} neutral={neutral} positive={positive} total={total} />
         </div>
     )
