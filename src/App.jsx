@@ -1,39 +1,4 @@
-const Header = (props) => {
-    return (
-        <h1>{props.course}</h1>
-    )
-}
-
-const Part = ({part}) => {
-
-    return (
-        <div>
-            <p> {part.name} {part.exercises}</p>
-        </div>
-    )
-}
-
-const Content = (props) => {
-    console.log(props)
-    return (
-        <div>
-            {props.parts.map(part => (
-                < Part part={part} key={part.name} />
-            ))}
-
-        </div>
-
-    )
-}
-
-const Total = (props) => {
-    const sum = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises
-    return (
-        <div>
-            <p>Number of exercises {sum}</p>
-        </div>
-    )
-}
+import Course  from './components/Course'
 
 const App = () => {
     const course = {
@@ -50,16 +15,14 @@ const App = () => {
             {
                 name: 'State of a component',
                 exercises: 14
+            },
+            {
+                name: 'Redux',
+                exercises: 11
             }
         ]
     }
-    return (
-        <div>
-            < Header course={course.name} />
-            < Content parts={course.parts} />
-            < Total parts={course.parts} />
-        </div>
-    )
+    return <Course course={course} />
 }
 
 export default App
