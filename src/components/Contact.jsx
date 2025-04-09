@@ -3,7 +3,7 @@ const Contact = ({ contact }) => {
         <tbody>
             <tr>
                 <td>{contact.name}</td>
-                <td>{contact.phone}</td>
+                <td>{contact.number}</td>
             </tr>
         </tbody>
     )
