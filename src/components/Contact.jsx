@@ -1,6 +1,11 @@
 const Contact = ({ contact }) => {
     return (
-        <li>{contact.name}</li>
+        <tbody>
+            <tr>
+                <td>{contact.name}</td>
+                <td>{contact.phone}</td>
+            </tr>
+        </tbody>
     )
 }
 
