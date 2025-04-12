@@ -4,7 +4,11 @@ const Contact = ({ contact, deleteContact }) => {
             <tr>
                 <td>{contact.name}</td>
                 <td>{contact.number}</td>
-                <td><button onClick={() => deleteContact(contact.id)}>delete</button></td>
+                <td><button onClick={() => {
+                    if (window.confirm(`Delete ${contact.name}?`)) {
+                        deleteContact(contact.id)
+                    }
+                }}>delete</button></td>
             </tr>
         </tbody>
     )

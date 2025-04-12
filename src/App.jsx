@@ -8,7 +8,7 @@ const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
-    const [lastId, setLastId] = useState(4)
+    const [lastId, setLastId] = useState(0)
     const [showPersons, setShowPersons] = useState('')
 
     useEffect(() => {
@@ -16,6 +16,7 @@ const App = () => {
             .read()
             .then(initialContacts => {
                 setPersons(initialContacts)
+                setLastId(initialContacts.length)
             })
     }, [])
 
@@ -23,6 +24,7 @@ const App = () => {
         event.preventDefault()
         const newId = persons.length + 1
         setLastId(newId)
+        console.log(lastId)
         const contactObject = {
             name: newName,
             number: newPhone,
