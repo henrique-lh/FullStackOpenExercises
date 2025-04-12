@@ -22,6 +22,13 @@ const deleteContact = (id) => {
     })
 }
 
+const updateContact = (id, newContact) => {
+    const request = axios.put(`${baseUrl}/${id}`, newContact)
+    return request.then(res => {
+        return res.data
+    })
+}
+
 export default {
-    read, create, deleteContact
+    read, create, deleteContact, updateContact
 }

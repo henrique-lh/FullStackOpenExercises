@@ -8,7 +8,7 @@ const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
-    const [lastId, setLastId] = useState(0)
+    const [_lastId, setLastId] = useState(0)
     const [showPersons, setShowPersons] = useState('')
 
     useEffect(() => {
@@ -24,13 +24,12 @@ const App = () => {
         event.preventDefault()
         const newId = persons.length + 1
         setLastId(newId)
-        console.log(lastId)
         const contactObject = {
             name: newName,
             number: newPhone,
             id: newId.toString()
         }
-        const exists = persons.some(p => p.name === newName)
+        const exists = persons.find(p => p.name === newName)
         if (newPhone.length === 0) {
             window.alert("Please enter a phone")
         }
@@ -38,7 +37,16 @@ const App = () => {
             window.alert("Please enter a name")
         }
         else if (exists) {
-            window.alert(`${newName} is already added to phonebook`)
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                const existingContactWithUpdatedNumber = {...exists, number: newPhone}
+                contactService
+                    .updateContact(existingContactWithUpdatedNumber.id, existingContactWithUpdatedNumber)
+                    .then(returnedContact => {
+                        setPersons(persons.map(p => p.id === returnedContact.id ? returnedContact : p))
+                        setNewName('')
+                        setNewPhone('')
+                    })
+            }
         }
         else {
             contactService
@@ -55,8 +63,7 @@ const App = () => {
         contactService
             .deleteContact(id)
             .then(returnedData => {
-                console.log('after delete', returnedData)
-                setPersons(persons.filter(p => p.id !== id))
+                setPersons(persons.filter(p => p.id !== returnedData.id))
             })
     }
 
