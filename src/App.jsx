@@ -8,6 +8,7 @@ const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
+    const [lastId, setLastId] = useState(4)
     const [showPersons, setShowPersons] = useState('')
 
     useEffect(() => {
@@ -20,10 +21,12 @@ const App = () => {
 
     const addName = (event) => {
         event.preventDefault()
+        const newId = persons.length + 1
+        setLastId(newId)
         const contactObject = {
             name: newName,
             number: newPhone,
-            id: persons.length + 1
+            id: newId.toString()
         }
         const exists = persons.some(p => p.name === newName)
         if (newPhone.length === 0) {
@@ -46,19 +49,25 @@ const App = () => {
         }
     }
 
+    const deleteContact = (id) => {
+        contactService
+            .deleteContact(id)
+            .then(returnedData => {
+                console.log('after delete', returnedData)
+                setPersons(persons.filter(p => p.id !== id))
+            })
+    }
+
     const handleShowedPersons = (event) => {
-        console.log('name', event.target.value)
         const name = event.target.value
         setShowPersons(name)
     }
 
     const handleNameChange = (event) => {
-        console.log('name=', event.target.value)
         setNewName(event.target.value)
     }
 
     const handlePhoneChange = (event) => {
-        console.log('number=', event.target.value)
         setNewPhone(event.target.value)
     }
 
@@ -84,7 +93,7 @@ const App = () => {
 
             <h2>Numbers</h2>
 
-            <Persons persons={personsToShow} />
+            <Persons persons={personsToShow} deleteContact={deleteContact} />
         </div>
     )
 }
