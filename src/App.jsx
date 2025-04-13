@@ -3,6 +3,7 @@ import Filter from "./components/Filter.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Persons from "./components/Persons.jsx";
 import contactService from "./service/contact.js";
+import Notification from "./components/Notification.jsx";
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -10,6 +11,7 @@ const App = () => {
     const [newPhone, setNewPhone] = useState('')
     const [_lastId, setLastId] = useState(0)
     const [showPersons, setShowPersons] = useState('')
+    const [notificationMesaage, setNotificationMesaage] = useState(null)
 
     useEffect(() => {
         contactService
@@ -43,18 +45,31 @@ const App = () => {
                     .updateContact(existingContactWithUpdatedNumber.id, existingContactWithUpdatedNumber)
                     .then(returnedContact => {
                         setPersons(persons.map(p => p.id === returnedContact.id ? returnedContact : p))
+                        setNotificationMesaage(
+                            `${newName} phone's number updated`
+                        )
                         setNewName('')
                         setNewPhone('')
+                        setTimeout(() => {
+                            setNotificationMesaage(null)
+                        }, 2000)
                     })
             }
         }
         else {
+
             contactService
                 .create(contactObject)
                 .then(returnedContacts => {
                     setPersons(persons.concat(returnedContacts))
+                    setNotificationMesaage(
+                        `Added ${newName}`
+                    )
                     setNewName('')
                     setNewPhone('')
+                    setTimeout(() => {
+                        setNotificationMesaage(null)
+                    }, 2000)
                 })
         }
     }
@@ -87,6 +102,8 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+
+            <Notification message={notificationMesaage}/>
 
             <Filter showPersons={showPersons} handleShowedPersons={handleShowedPersons} />
 
