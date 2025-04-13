@@ -11,7 +11,8 @@ const App = () => {
     const [newPhone, setNewPhone] = useState('')
     const [_lastId, setLastId] = useState(0)
     const [showPersons, setShowPersons] = useState('')
-    const [notificationMesaage, setNotificationMesaage] = useState(null)
+    const [notificationMessage, setNotificationMessage] = useState(null)
+    const [colorMessage, setColorMessage] = useState('')
 
     useEffect(() => {
         contactService
@@ -45,14 +46,28 @@ const App = () => {
                     .updateContact(existingContactWithUpdatedNumber.id, existingContactWithUpdatedNumber)
                     .then(returnedContact => {
                         setPersons(persons.map(p => p.id === returnedContact.id ? returnedContact : p))
-                        setNotificationMesaage(
+                        setNotificationMessage(
                             `${newName} phone's number updated`
                         )
+                        setColorMessage('green')
                         setNewName('')
                         setNewPhone('')
                         setTimeout(() => {
-                            setNotificationMesaage(null)
+                            setNotificationMessage(null)
+                            setColorMessage('')
                         }, 2000)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setNotificationMessage(
+                            `Information about ${newName} has already been removed from server`
+                        )
+                        setColorMessage('red')
+                        setPersons(persons.filter(p => p.id !== exists.id))
+                        setTimeout(() => {
+                            setNotificationMessage(null)
+                            setColorMessage('')
+                        }, 3000)
                     })
             }
         }
@@ -62,13 +77,15 @@ const App = () => {
                 .create(contactObject)
                 .then(returnedContacts => {
                     setPersons(persons.concat(returnedContacts))
-                    setNotificationMesaage(
+                    setNotificationMessage(
                         `Added ${newName}`
                     )
+                    setColorMessage('green')
                     setNewName('')
                     setNewPhone('')
                     setTimeout(() => {
-                        setNotificationMesaage(null)
+                        setNotificationMessage(null)
+                        setColorMessage('')
                     }, 2000)
                 })
         }
@@ -103,7 +120,7 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
 
-            <Notification message={notificationMesaage}/>
+            <Notification message={notificationMessage} colorMessage={colorMessage} />
 
             <Filter showPersons={showPersons} handleShowedPersons={handleShowedPersons} />
 
