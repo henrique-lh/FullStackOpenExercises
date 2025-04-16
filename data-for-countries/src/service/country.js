@@ -8,5 +8,7 @@ export const getCountries = () => {
 
 export const getCountry = (name) => {
     const request = axios.get(`${baseUrl}/name/${name}`)
-    return request.then(res => res.data)
+    return request.then(res => {
+        return res.data
+    })
 }

@@ -1,5 +1,4 @@
 export const Languages = ({ langs }) => {
-    console.log(langs)
     return (
         <div>
             <ul>

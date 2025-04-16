@@ -1,6 +1,6 @@
 import {Country, CountryWithDetails} from "./country.jsx";
 
-export const Countries = ({ countries }) => {
+export const Countries = ({ countries, setShowCountryButton }) => {
     if (countries.length === 0) {
         return (
             <div>
@@ -19,7 +19,7 @@ export const Countries = ({ countries }) => {
         return (
             <div>
                 {countries.map((country) =>
-                    <Country key={country.name.common} country={country} />
+                    <Country key={country.name.common} country={country} setShowCountryButton={setShowCountryButton} />
                 )}
             </div>
         )
