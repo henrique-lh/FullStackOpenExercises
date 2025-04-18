@@ -2,7 +2,7 @@ const express = require('express')
 
 const app = express()
 
-const persons = [
+let persons = [
     {
         "id": "1",
         "name": "Arto Hellas",
@@ -43,6 +43,17 @@ app.get('/api/persons/:id', (request, response) => {
     }
     else {
         response.json(person)
+    }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+    const personId = request.params.id
+    const person = persons.find(p => p.id === personId)
+    if (!person) {
+        response.status(404).send('Not Found')
+    } else {
+        persons = persons.filter(person => person.id !== personId)
+        response.status(204).send(`Deleted ${person.name} from phonebook`)
     }
 })
 
