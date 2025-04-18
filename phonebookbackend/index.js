@@ -1,7 +1,18 @@
 const express = require('express')
+const morgan = require('morgan')
 
 const app = express()
 app.use(express.json())
+app.use(morgan('tiny'))
+
+app.use((request, response, next) => {
+    const originalSend = response.send
+    response.send = function (body) {
+        console.log(body)
+        return originalSend.call(this, body)
+    }
+    next()
+})
 
 let persons = [
     {
